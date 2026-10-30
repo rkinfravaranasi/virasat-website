@@ -1,0 +1,214 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProjectCategory {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  isActive    Boolean   @default(true)
+  order       Int       @default(0)
+  projects    Project[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Project {
+  id               String                 @id @default(cuid())
+  title            String
+  slug             String                 @unique
+  tagline          String?
+  shortDescription String
+  fullDescription  String
+  categoryId       String
+  category         ProjectCategory        @relation(fields: [categoryId], references: [id])
+  status           String                 @default("Upcoming") // Upcoming, New Launch, Under Development, Ready to Move, Completed
+  propertyType     String                 // Plotted Development, Luxury Apartments, Luxury Villas, Commercial, Township
+  locationName     String                 // e.g. Ring Road Phase-2, Varanasi
+  fullAddress      String?
+  city             String                 @default("Varanasi")
+  state            String                 @default("Uttar Pradesh")
+  pincode          String?
+  latitude         Float?
+  longitude        Float?
+  heroImage        String
+  masterPlanImage  String?
+  brochureUrl      String?
+  videoUrl         String?
+  virtualTourUrl   String?
+  reraNumber       String?                // Clearly labelled e.g. [UP-RERA Registration in Progress]
+  reraWebsiteUrl   String?
+  priceStarting    String?                // e.g. "₹45 Lakhs onwards" or "Price on Request"
+  possessionDate   String?                // e.g. "Dec 2026" or "Immediate"
+  totalArea        String?                // e.g. "25 Acres"
+  totalUnits       String?                // e.g. "120 Plots"
+  openSpaceRatio   String?                // e.g. "70% Greenery & Open Spaces"
+  roadWidth        String?                // e.g. "40 ft & 60 ft Wide Internal Roads"
+  isFeatured       Boolean                @default(false)
+  isPublished      Boolean                @default(true)
+  order            Int                    @default(0)
+  metaTitle        String?
+  metaDescription  String?
+
+  configurations   ProjectConfiguration[]
+  amenities        ProjectAmenity[]
+  media            ProjectMedia[]
+  documents        ProjectDocument[]
+  enquiries        Enquiry[]
+  nearbyLandmarks  NearbyLandmark[]
+
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+}
+
+model ProjectConfiguration {
+  id             String   @id @default(cuid())
+  projectId      String
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title          String   // e.g. "Type A - Premium Villa Plot", "3 BHK Luxury Residence"
+  type           String   // PLOT, APARTMENT, VILLA, COMMERCIAL
+  dimensions     String?  // e.g. "30 ft x 50 ft" or "1,500 sq.ft."
+  plotSizeSqFt   Float?
+  carpetAreaSqFt Float?
+  superAreaSqFt  Float?
+  bedrooms       Int?
+  bathrooms      Int?
+  balconies      Int?
+  priceEstimate  String?  // "Price on Request" or specific range
+  floorPlanImage String?
+  isAvailable    Boolean  @default(true)
+  order          Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model ProjectAmenity {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title       String
+  category    String   @default("Leisure") // Leisure, Wellness, Infrastructure, Security, Eco-living
+  description String?
+  iconName    String?  // Lucide icon key: Shield, Trees, Waves, Dumbbell, Compass, etc.
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NearbyLandmark {
+  id            String   @id @default(cuid())
+  projectId     String
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name          String   // e.g. "Lal Bahadur Shastri Int'l Airport (Babatpur)"
+  category      String   // Airport, Transit, Healthcare, Education, Spiritual, Commercial
+  distanceKm    String   // e.g. "18 Km"
+  travelTimeMin String   // e.g. "25 mins"
+  verified      Boolean  @default(true)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ProjectMedia {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title       String?
+  caption     String?
+  altText     String?
+  mediaType   String   @default("IMAGE") // IMAGE, VIDEO, 360_TOUR, CONSTRUCTION_UPDATE
+  url         String
+  category    String   @default("Architecture") // Architecture, Landscape, Interior, Drone, Construction
+  isFeatured  Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ProjectDocument {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title       String   // e.g. "Official Project Brochure (PDF)", "Approved Layout Plan"
+  fileType    String   @default("PDF")
+  fileUrl     String
+  fileSize    String?  // e.g. "4.8 MB"
+  isPublic    Boolean  @default(true)
+  downloads   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Enquiry {
+  id                     String      @id @default(cuid())
+  fullName               String
+  phone                  String
+  email                  String
+  projectId              String?
+  project                Project?    @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  interestedProjectName  String?
+  propertyType           String?
+  budgetRange            String?
+  preferredConfiguration String?
+  enquiryType            String      @default("GENERAL") // GENERAL, PROJECT_SPECIFIC, BROCHURE_DOWNLOAD, SITE_VISIT_BOOKING
+  message                String?
+  leadSource             String      @default("WEBSITE")
+  status                 String      @default("NEW") // NEW, CONTACTED, QUALIFIED, SITE_VISIT_SCHEDULED, CONVERTED, NOT_INTERESTED
+  ipAddress              String?
+  scheduledVisitDate     DateTime?
+  notes                  LeadNote[]
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+}
+
+model LeadNote {
+  id        String   @id @default(cuid())
+  enquiryId String
+  enquiry   Enquiry  @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  note      String
+  author    String   @default("Admin")
+  createdAt DateTime @default(now())
+}
+
+model BlogPost {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  excerpt         String
+  content         String
+  coverImage      String
+  category        String   @default("Market Trends") // Market Trends, Architectural Insights, Varanasi Growth, Investment Guide
+  authorName      String   @default("Virasat Editorial")
+  readTimeMinutes Int      @default(5)
+  isFeatured      Boolean  @default(false)
+  isPublished     Boolean  @default(true)
+  metaTitle       String?
+  metaDescription String?
+  publishedAt     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model WebsiteSetting {
+  id              String   @id @default(cuid())
+  key             String   @unique
+  value           String
+  description     String?
+  updatedAt       DateTime @updatedAt
+}

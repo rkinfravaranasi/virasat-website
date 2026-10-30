@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  --color-virasat-green: #173D32;
+  --color-virasat-green-dark: #0F2620;
+  --color-virasat-green-light: #235647;
+  --color-virasat-gold: #C6A66B;
+  --color-virasat-gold-light: #D5BB88;
+  --color-virasat-gold-dark: #A4854B;
+  --color-virasat-ivory: #F7F5EF;
+  --color-virasat-ivory-dark: #ECE8DC;
+  --color-virasat-charcoal: #202321;
+  --color-virasat-charcoal-dark: #141715;
+
+  --font-serif: var(--font-serif), Georgia, serif;
+  --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --primary-green: #173D32;
+  --primary-gold: #C6A66B;
+  --primary-ivory: #F7F5EF;
+  --primary-charcoal: #202321;
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0F2620;
+}
+::-webkit-scrollbar-thumb {
+  background: #C6A66B;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D5BB88;
+}
+
+/* Luxury Utilities */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #F3E6C8 0%, #C6A66B 50%, #9F7E41 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gold-metallic {
+  background: linear-gradient(135deg, #DFCA9B 0%, #C6A66B 50%, #A6864B 100%);
+}
+
+.border-gold-subtle {
+  border-color: rgba(198, 166, 107, 0.25);
+}
+
+.glass-dark {
+  background: rgba(15, 38, 32, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(198, 166, 107, 0.18);
+}
+
+.glass-light {
+  background: rgba(247, 245, 239, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(198, 166, 107, 0.2);
+}
+
+/* Smooth Image Zoom on Hover */
+.luxury-image-card img {
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.luxury-image-card:hover img {
+  transform: scale(1.05);
+}
