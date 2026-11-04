@@ -24,6 +24,9 @@ import {
   Compass,
   Play,
   X,
+  Waves,
+  Sparkles,
+  Building2,
 } from "lucide-react";
 
 interface ProjectDetailClientProps {
@@ -43,6 +46,128 @@ export default function ProjectDetailClient({
   const [activeMediaTab, setActiveMediaTab] = useState<string>("ALL");
   const [activeFaqIndex, setActiveFaqIndex] = useState<number | null>(0);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [activePhaseIndex, setActivePhaseIndex] = useState<number>(0);
+  const [galleryCategory, setGalleryCategory] = useState<string>("ALL");
+
+  const isKashiLakeCity = project.slug === "kashi-lake-city";
+
+  const kashiLakePhases = [
+    {
+      id: "p1",
+      badge: "Phase 1 (P1)",
+      name: "The Grand Arrival & Heritage Park",
+      plots: "45 Plots",
+      grossArea: "20,225 m²",
+      headline: "Civic Sandstone Gate & First Residential Neighborhood",
+      description:
+        "The ceremonial entrance to Kashi Lake City. Anchored by the 24m Grand Arrival Boulevard, a monumental sandstone entrance arch, 24x7 estate operations, and a lush 2,400 m² family park.",
+      features: [
+        "Heritage Sandstone Civic Entrance Arch",
+        "Estate Management & Security Control Pavilion",
+        "2,400 m² Usable Family Park with children's play lawn",
+        "24-Metre Wide Main Boulevard with flowering medians",
+      ],
+      image: "/images/projects/kashi-lake-city/civic-entrance-gate.jpg",
+      mix: "11 Plots (1,200 sq.ft) • 25 Plots (1,500 sq.ft) • 2 Plots (1,800 sq.ft) • 7 Plots (2,400 sq.ft)",
+    },
+    {
+      id: "p2",
+      badge: "Phase 2 (P2)",
+      name: "Sports & Active Recreation Precinct",
+      plots: "136 Plots",
+      grossArea: "50,564 m²",
+      headline: "Multi-Sport Complex & Central Neighborhood Park",
+      description:
+        "The energetic pulse of the estate. Features a dedicated 3,500 m² active sports complex, an open 1,500 m² central green, wide tree-canopied collector avenues, and safe pedestrian loops.",
+      features: [
+        "3,500 m² Multi-Sport Arena (Basketball, Tennis & Turf)",
+        "1,500 m² Central Neighborhood Park",
+        "Curving collector avenues with traffic-calmed roundabouts",
+        "Dedicated jogging trails and outdoor fitness stations",
+      ],
+      image: "/images/projects/kashi-lake-city/sports-recreation-arena.jpg",
+      mix: "34 Plots (1,200 sq.ft) • 75 Plots (1,500 sq.ft) • 7 Plots (1,800 sq.ft) • 20 Plots (2,400 sq.ft)",
+    },
+    {
+      id: "p3",
+      badge: "Phase 3 (P3)",
+      name: "Garden Enclave & Connector Network",
+      plots: "76 Plots",
+      grossArea: "25,282 m²",
+      headline: "Tranquil Garden Living & Botanical Avenues",
+      description:
+        "Designed for peace and family tranquility. Features a 1,000 m² connector botanical garden, pedestrian tree-lined streets, landscaped pocket parks, and underground eco-drainage bioswales.",
+      features: [
+        "1,000 m² Residential Connector Botanical Garden",
+        "Tree-canopied pedestrian walking & cycling network",
+        "Concealed underground utilities & rainwater bioswales",
+        "Quiet residential cul-de-sacs with visitor parking",
+      ],
+      image: "/images/projects/kashi-lake-city/corner-plot-parklet.jpg",
+      mix: "19 Plots (1,200 sq.ft) • 42 Plots (1,500 sq.ft) • 4 Plots (1,800 sq.ft) • 11 Plots (2,400 sq.ft)",
+    },
+    {
+      id: "p4",
+      badge: "Phase 4 (P4)",
+      name: "Shaded Woodland & Senior Wellness",
+      plots: "134 Plots",
+      grossArea: "50,564 m²",
+      headline: "Canopy Woodland & Quiet Meditation Retreat",
+      description:
+        "A microclimate sanctuary with tall canopy trees, an open-air yoga and meditation circle, low-intensity senior citizen reflexology paths, and bird-friendly natural habitats.",
+      features: [
+        "2,200 m² Shaded Woodland Park with mature canopy trees",
+        "Open-air Yoga and Meditation Pavilion",
+        "Low-intensity senior citizen fitness zone & walking paths",
+        "Natural stone sitting gazebos with birdsong ambient landscapes",
+      ],
+      image: "/images/projects/kashi-lake-city/woodland-shaded-park.jpg",
+      mix: "34 Plots (1,200 sq.ft) • 74 Plots (1,500 sq.ft) • 7 Plots (1,800 sq.ft) • 19 Plots (2,400 sq.ft)",
+    },
+    {
+      id: "p5",
+      badge: "Phase 5 (P5)",
+      name: "The Lake Sanctuary & Destination Clubhouse",
+      plots: "43 Plots",
+      grossArea: "20,553 m²",
+      headline: "Resort Waterfront Living & The Virasat Club",
+      description:
+        "The crown jewel of Kashi Lake City. Overlooking a 3,500 m² natural freshwater lake with a continuous timber promenade, stepped rock waterfalls, and a 3,000 m² world-class clubhouse.",
+      features: [
+        "3,000 m² Grand Clubhouse with infinity pool, banquet & gym",
+        "3,500 m² Inland Freshwater Lake with illuminated boardwalk",
+        "4,800 m² Grand Destination Green lawn facing the water",
+        "Arched stone pedestrian bridge and cascading rain gardens",
+      ],
+      image: "/images/projects/kashi-lake-city/grand-clubhouse.jpg",
+      mix: "11 Plots (1,200 sq.ft) • 23 Plots (1,500 sq.ft) • 2 Plots (1,800 sq.ft) • 7 Plots (2,400 sq.ft)",
+    },
+  ];
+
+  const masterplanLandUse = [
+    { label: "Residential Plots", area: "71,260 m²", pct: "42.62%", desc: "Demarcated freehold villa plots (434 units)", color: "bg-virasat-gold" },
+    { label: "Wide Internal Roads", area: "42,000 m²", pct: "25.12%", desc: "24m, 12m & 9m wide tree-lined paved road network", color: "bg-stone-500" },
+    { label: "Botanical Parks & Greens", area: "25,100 m²", pct: "15.01%", desc: "Dedicated thematic gardens, woodlands & lawns", color: "bg-emerald-600" },
+    { label: "Club & Lifestyle Campuses", area: "11,500 m²", pct: "6.88%", desc: "Clubhouse, lake promenade, sports arena & civic gate", color: "bg-amber-600" },
+    { label: "Eco-Utilities & Buffer", area: "17,328 m²", pct: "10.37%", desc: "STP, rainwater harvesting, underground substations", color: "bg-teal-700" },
+  ];
+
+  const filteredMedia = project.media
+    ? project.media.filter((item: any) => {
+        if (galleryCategory === "ALL") return true;
+        const text = `${item.title || ""} ${item.caption || ""} ${item.category || ""} ${item.url || ""}`.toLowerCase();
+        if (galleryCategory === "LAKE") {
+          return text.includes("lake") || text.includes("water") || text.includes("boardwalk") || text.includes("bridge") || text.includes("cascade") || text.includes("gazebo");
+        }
+        if (galleryCategory === "ARCHITECTURE") {
+          return text.includes("gate") || text.includes("club") || text.includes("aerial") || text.includes("villa") || text.includes("intersection") || text.includes("avenue") || text.includes("architecture");
+        }
+        if (galleryCategory === "LANDSCAPE") {
+          return text.includes("park") || text.includes("sports") || text.includes("woodland") || text.includes("yoga") || text.includes("green") || text.includes("roundabout") || text.includes("landscape");
+        }
+        return true;
+      })
+    : [];
 
   const isPlotted =
     project.propertyType?.toLowerCase().includes("plot") ||
@@ -345,27 +470,34 @@ export default function ProjectDetailClient({
 
             {/* Master Plan / Layout Section */}
             {project.masterPlanImage && (
-              <section className="space-y-4 pt-6 border-t border-virasat-gold/20">
-                <div className="flex items-center justify-between">
+              <section className="space-y-6 pt-6 border-t border-virasat-gold/20">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
                     <span className="text-xs uppercase tracking-[0.25em] text-virasat-green font-bold block mb-1">
                       Architectural Blueprint
                     </span>
                     <h3 className="font-serif text-2xl font-bold text-virasat-green-dark">
-                      Master Plan & Layout
+                      Master Plan & Layout Framework
                     </h3>
                   </div>
-                  <button
-                    onClick={handleOpenBrochure}
-                    className="inline-flex items-center space-x-1 text-xs text-virasat-green font-bold hover:underline"
+                  <a
+                    href={project.brochureUrl && project.brochureUrl.startsWith("/") ? project.brochureUrl : "#"}
+                    download={project.brochureUrl && project.brochureUrl.startsWith("/") ? "Kashi-Lake-City-Masterplan.pdf" : undefined}
+                    onClick={(e) => {
+                      if (!project.brochureUrl || !project.brochureUrl.startsWith("/")) {
+                        e.preventDefault();
+                        handleOpenBrochure();
+                      }
+                    }}
+                    className="inline-flex items-center space-x-1.5 text-xs text-virasat-green font-bold hover:text-virasat-gold transition-colors bg-virasat-green/10 border border-virasat-gold/40 px-3.5 py-2 rounded"
                   >
                     <Download className="w-3.5 h-3.5" />
-                    <span>Download Masterplan PDF</span>
-                  </button>
+                    <span>Download Official Masterplan Dossier</span>
+                  </a>
                 </div>
 
                 <div
-                  className="relative rounded-lg overflow-hidden border border-virasat-gold/40 bg-virasat-charcoal-dark cursor-pointer group"
+                  className="relative rounded-lg overflow-hidden border border-virasat-gold/40 bg-virasat-charcoal-dark cursor-pointer group shadow-lg"
                   onClick={() => setLightboxImage(project.masterPlanImage)}
                 >
                   <img
@@ -375,7 +507,230 @@ export default function ProjectDetailClient({
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold space-x-2">
                     <Maximize2 className="w-5 h-5" />
-                    <span>Click to Zoom Blueprint</span>
+                    <span>Click to Zoom Masterplan Blueprint</span>
+                  </div>
+                </div>
+
+                {/* Land-Use Allocation Grid for Kashi Lake City */}
+                {isKashiLakeCity && (
+                  <div className="bg-white border border-virasat-gold/30 rounded-xl p-6 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between border-b border-virasat-gold/20 pb-3">
+                      <div>
+                        <span className="text-[10px] uppercase tracking-widest text-virasat-gold font-bold block">
+                          Certified Land-Use Account
+                        </span>
+                        <h4 className="font-serif text-base font-bold text-virasat-green-dark">
+                          41.31-Acre Masterplan Allocation
+                        </h4>
+                      </div>
+                      <span className="text-xs font-mono font-semibold text-virasat-green bg-virasat-green/10 px-2.5 py-1 rounded">
+                        Total 1,67,188 m²
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                      {masterplanLandUse.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="bg-virasat-ivory-dark/30 border border-virasat-gold/20 p-3 rounded-lg space-y-1"
+                        >
+                          <span className="text-xs font-serif font-bold text-virasat-gold block">
+                            {item.pct}
+                          </span>
+                          <span className="text-[11px] font-bold text-virasat-green-dark block leading-tight">
+                            {item.label}
+                          </span>
+                          <span className="text-[10px] text-virasat-charcoal/60 block font-mono">
+                            {item.area}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </section>
+            )}
+
+            {/* 5-Phase Interactive Masterplan Explorer (Exclusive for Kashi Lake City) */}
+            {isKashiLakeCity && (
+              <section className="space-y-6 pt-6 border-t border-virasat-gold/20">
+                <div>
+                  <span className="text-xs uppercase tracking-[0.25em] text-virasat-green font-bold block mb-1">
+                    Phased Phygital Delivery
+                  </span>
+                  <h3 className="font-serif text-2xl font-bold text-virasat-green-dark">
+                    Five Curated Lifestyle Precincts
+                  </h3>
+                  <p className="text-xs text-virasat-charcoal/70 mt-1 font-light">
+                    Every phase represents an interconnected neighborhood with distinct lifestyle roles, parks, and wide boulevards.
+                  </p>
+                </div>
+
+                {/* Phase Selection Tabs */}
+                <div className="flex flex-wrap gap-2 border-b border-virasat-gold/25 pb-3">
+                  {kashiLakePhases.map((p, idx) => (
+                    <button
+                      key={p.id}
+                      onClick={() => setActivePhaseIndex(idx)}
+                      className={`text-xs px-3.5 py-2 rounded-lg font-bold transition-all flex items-center space-x-1.5 ${
+                        activePhaseIndex === idx
+                          ? "bg-virasat-green text-virasat-gold-light shadow-md"
+                          : "bg-white text-virasat-charcoal/70 hover:bg-virasat-ivory border border-virasat-gold/30"
+                      }`}
+                    >
+                      <span>{p.badge}</span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Active Phase Card */}
+                {kashiLakePhases[activePhaseIndex] && (
+                  <div className="bg-white border border-virasat-gold/30 rounded-xl overflow-hidden shadow-md grid grid-cols-1 md:grid-cols-12 gap-0">
+                    <div
+                      className="md:col-span-6 relative h-64 md:h-auto min-h-[260px] cursor-pointer group"
+                      onClick={() => setLightboxImage(kashiLakePhases[activePhaseIndex].image)}
+                    >
+                      <img
+                        src={kashiLakePhases[activePhaseIndex].image}
+                        alt={kashiLakePhases[activePhaseIndex].name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                      <div className="absolute bottom-3 left-3 right-3 text-white">
+                        <span className="text-[10px] uppercase font-bold tracking-widest text-virasat-gold block">
+                          {kashiLakePhases[activePhaseIndex].badge}
+                        </span>
+                        <h4 className="font-serif text-base font-bold text-white">
+                          {kashiLakePhases[activePhaseIndex].name}
+                        </h4>
+                      </div>
+                      <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded border border-white/20">
+                        {kashiLakePhases[activePhaseIndex].plots} • {kashiLakePhases[activePhaseIndex].grossArea}
+                      </div>
+                    </div>
+
+                    <div className="md:col-span-6 p-6 space-y-4 flex flex-col justify-between">
+                      <div className="space-y-3">
+                        <h5 className="font-serif text-lg font-bold text-virasat-green-dark">
+                          {kashiLakePhases[activePhaseIndex].headline}
+                        </h5>
+                        <p className="text-xs text-virasat-charcoal/80 font-light leading-relaxed">
+                          {kashiLakePhases[activePhaseIndex].description}
+                        </p>
+
+                        <div className="space-y-1.5 pt-2">
+                          <span className="text-[10px] uppercase font-bold tracking-wider text-virasat-gold block">
+                            Key Neighborhood Infrastructure:
+                          </span>
+                          <ul className="space-y-1.5 text-xs text-virasat-charcoal/85">
+                            {kashiLakePhases[activePhaseIndex].features.map((feat, fidx) => (
+                              <li key={fidx} className="flex items-start space-x-2">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-virasat-green shrink-0 mt-0.5" />
+                                <span>{feat}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-virasat-gold/20 flex items-center justify-between">
+                        <div className="text-[10px] text-virasat-charcoal/60 font-mono">
+                          {kashiLakePhases[activePhaseIndex].mix}
+                        </div>
+                        <button
+                          onClick={handleOpenSiteVisit}
+                          className="bg-gold-metallic text-virasat-green-dark text-[11px] uppercase tracking-wider font-bold px-4 py-2 rounded hover:brightness-110 transition-all shrink-0 ml-2"
+                        >
+                          Enquire Phase
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </section>
+            )}
+
+            {/* Dedicated Waterfront & Lake Life Showcase (Exclusive for Kashi Lake City) */}
+            {isKashiLakeCity && (
+              <section className="bg-gradient-to-br from-virasat-green-dark via-virasat-green to-virasat-charcoal-dark text-white rounded-xl p-8 border border-virasat-gold/40 shadow-xl space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+                  <div className="space-y-1">
+                    <div className="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.25em] text-virasat-gold font-bold">
+                      <Waves className="w-4 h-4 text-virasat-gold" />
+                      <span>Signature Waterbody</span>
+                    </div>
+                    <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+                      The Aquatic Lake & Waterfront Sanctuary
+                    </h3>
+                  </div>
+                  <span className="text-xs bg-virasat-gold/20 border border-virasat-gold/50 text-virasat-gold-light px-3.5 py-1.5 rounded-full font-bold self-start sm:self-auto">
+                    3,500 m² Inland Freshwater Lake
+                  </span>
+                </div>
+
+                <p className="text-sm text-white/80 font-light leading-relaxed">
+                  Engineered with biological filtration, stepped natural rock waterfalls, and a continuous timber boardwalk, the internal lake creates a tranquil microclimate. Residents enjoy morning jogger tracks, bird-friendly lotus ponds, an arched pedestrian bridge, and illuminated evening reflections alongside the luxury clubhouse.
+                </p>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div
+                    className="relative h-28 rounded-lg overflow-hidden border border-white/20 cursor-pointer group"
+                    onClick={() => setLightboxImage("/images/projects/kashi-lake-city/lake-pedestrian-bridge.jpg")}
+                  >
+                    <img
+                      src="/images/projects/kashi-lake-city/lake-pedestrian-bridge.jpg"
+                      alt="Lake Pedestrian Bridge"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10" />
+                    <span className="absolute bottom-1.5 left-2 text-[10px] font-bold text-white drop-shadow">
+                      Arched Stone Bridge
+                    </span>
+                  </div>
+
+                  <div
+                    className="relative h-28 rounded-lg overflow-hidden border border-white/20 cursor-pointer group"
+                    onClick={() => setLightboxImage("/images/projects/kashi-lake-city/lake-timber-boardwalk.jpg")}
+                  >
+                    <img
+                      src="/images/projects/kashi-lake-city/lake-timber-boardwalk.jpg"
+                      alt="Timber Boardwalk"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10" />
+                    <span className="absolute bottom-1.5 left-2 text-[10px] font-bold text-white drop-shadow">
+                      Timber Boardwalk
+                    </span>
+                  </div>
+
+                  <div
+                    className="relative h-28 rounded-lg overflow-hidden border border-white/20 cursor-pointer group"
+                    onClick={() => setLightboxImage("/images/projects/kashi-lake-city/lake-rain-garden-cascade.jpg")}
+                  >
+                    <img
+                      src="/images/projects/kashi-lake-city/lake-rain-garden-cascade.jpg"
+                      alt="Stepped Waterfall"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10" />
+                    <span className="absolute bottom-1.5 left-2 text-[10px] font-bold text-white drop-shadow">
+                      Rain Garden Cascade
+                    </span>
+                  </div>
+
+                  <div
+                    className="relative h-28 rounded-lg overflow-hidden border border-white/20 cursor-pointer group"
+                    onClick={() => setLightboxImage("/images/projects/kashi-lake-city/clubhouse-lake-dusk.jpg")}
+                  >
+                    <img
+                      src="/images/projects/kashi-lake-city/clubhouse-lake-dusk.jpg"
+                      alt="Clubhouse Lake Dusk"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10" />
+                    <span className="absolute bottom-1.5 left-2 text-[10px] font-bold text-white drop-shadow">
+                      Clubhouse Reflection
+                    </span>
                   </div>
                 </div>
               </section>
@@ -384,20 +739,45 @@ export default function ProjectDetailClient({
             {/* Image Gallery */}
             {project.media && project.media.length > 0 && (
               <section className="space-y-4 pt-6 border-t border-virasat-gold/20">
-                <div>
-                  <span className="text-xs uppercase tracking-[0.25em] text-virasat-green font-bold block mb-1">
-                    Visual Showcase
-                  </span>
-                  <h3 className="font-serif text-2xl font-bold text-virasat-green-dark">
-                    Site & Architectural Gallery
-                  </h3>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div>
+                    <span className="text-xs uppercase tracking-[0.25em] text-virasat-green font-bold block mb-1">
+                      Visual Showcase
+                    </span>
+                    <h3 className="font-serif text-2xl font-bold text-virasat-green-dark">
+                      Site & Architectural Gallery
+                    </h3>
+                  </div>
+
+                  {isKashiLakeCity && (
+                    <div className="flex flex-wrap gap-1.5">
+                      {[
+                        { key: "ALL", label: "All Renders" },
+                        { key: "LAKE", label: "Waterfront & Lake" },
+                        { key: "ARCHITECTURE", label: "Architecture & Club" },
+                        { key: "LANDSCAPE", label: "Parks & Landscape" },
+                      ].map((cat) => (
+                        <button
+                          key={cat.key}
+                          onClick={() => setGalleryCategory(cat.key)}
+                          className={`text-[11px] px-3 py-1.5 rounded font-bold transition-all ${
+                            galleryCategory === cat.key
+                              ? "bg-virasat-green text-virasat-gold-light shadow-sm"
+                              : "bg-white text-virasat-charcoal/70 hover:bg-virasat-ivory border border-virasat-gold/30"
+                          }`}
+                        >
+                          {cat.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {project.media.map((item: any) => (
+                  {filteredMedia.map((item: any) => (
                     <div
                       key={item.id}
-                      className="relative h-44 rounded overflow-hidden border border-virasat-gold/20 cursor-pointer group"
+                      className="relative h-44 rounded overflow-hidden border border-virasat-gold/20 cursor-pointer group shadow-sm"
                       onClick={() => setLightboxImage(item.url)}
                     >
                       <img
@@ -406,6 +786,13 @@ export default function ProjectDetailClient({
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
+                      {item.title && (
+                        <div className="absolute bottom-2 left-2 right-2 text-white">
+                          <p className="text-[11px] font-bold drop-shadow truncate">
+                            {item.title}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>

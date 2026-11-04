@@ -90,6 +90,143 @@ async function main() {
 
   // 5. Create Flagship Projects
 
+  // Project 0: Virasat Kashi Lake City (41.31-Acre Flagship Masterplan Plotted Estate)
+  const projectKashiLake = await prisma.project.create({
+    data: {
+      title: "Virasat Kashi Lake City",
+      slug: "kashi-lake-city",
+      tagline: "Varanasi's Flagship 41-Acre Lakefront Plotted Sanctuary",
+      shortDescription: "An expansive 41.31-acre master-planned plotted development comprising 434 freehold villa plots, an internal freshwater lake with promenade, 24m grand boulevard, and an exclusive 3,000 m² clubhouse.",
+      fullDescription: `Envisioned as Eastern Uttar Pradesh's most sophisticated gated plotted township, Virasat Kashi Lake City spans 41.31 acres of pristine, freehold land in the high-growth corridor of Varanasi. 
+
+The masterplan harmoniously balances high-end residential privacy with expansive natural recreation, dedicating over 15% of the estate (25,100 m² / ~6.2 Acres) to pure botanical parks, shaded woodlands, and open community greens. At the heart of the estate lies an inland freshwater lake (3,500 m²) with a continuous timber promenade, stepped cascading rain gardens, illuminated walking bridges, and scenic waterside seating.
+
+Residents enjoy an unmatched road and mobility network anchored by a 24-metre wide Grand Boulevard, 12-metre collector boulevards, and 9-metre traffic-calmed residential avenues with dedicated bicycle tracks and bioswales. The estate is fortified with 100% subterranean utilities (concealed electrical cabling, high-speed fiber conduits, underground stormwater drainage, and sewage treatment), a monumental sandstone civic entrance gate, 3-tier 24x7 security, and a 3,000 m² luxury clubhouse featuring an infinity pool and sports arena.`,
+      categoryId: catPlots.id,
+      status: "New Launch",
+      propertyType: "Plotted Development",
+      locationName: "Gudiya, Outer Ring Road Corridor, Varanasi",
+      fullAddress: "Virasat Kashi Lake City, Ring Road Phase-2 Extension, Gudiya, Varanasi, UP 221003",
+      city: "Varanasi",
+      state: "Uttar Pradesh",
+      pincode: "221003",
+      heroImage: "/images/projects/kashi-lake-city/civic-entrance-gate.jpg",
+      masterPlanImage: "/images/projects/kashi-lake-city/plotted-development-aerial.jpg",
+      brochureUrl: "/downloads/kashi-lake-city-brochure.pdf",
+      reraNumber: "[UP-RERA Registration in Progress / Statutory Planning Reference V4]",
+      priceStarting: "₹36 Lakhs onwards",
+      possessionDate: "Phased Handover 2026 - 2027",
+      totalArea: "41.31 Acres Masterplan (1,67,188 m²)",
+      totalUnits: "434 Curated Freehold Plots (5 Phases)",
+      openSpaceRatio: "15.01% Dedicated Botanical Parks (25,100 m²)",
+      roadWidth: "24m Grand Boulevard, 12m Collectors & 9m Streets",
+      isFeatured: true,
+      isPublished: true,
+      order: 1,
+      metaTitle: "Virasat Kashi Lake City | 41-Acre Luxury Plotted Township in Varanasi",
+      metaDescription: "Explore 434 freehold residential plots at Virasat Kashi Lake City, Varanasi. 41.31-acre gated estate featuring internal freshwater lake, 3,000 m² clubhouse, and 24m grand boulevard.",
+    },
+  });
+
+  // Project 0 Configurations (Plot Sizes from Masterplan Schedule)
+  await prisma.projectConfiguration.createMany({
+    data: [
+      {
+        projectId: projectKashiLake.id,
+        title: "The Classic Villa Plot",
+        type: "PLOT",
+        dimensions: "30 ft x 40 ft (1,200 sq.ft.) — 109 Plots in Mix",
+        plotSizeSqFt: 1200,
+        priceEstimate: "₹36 Lakhs* onwards",
+        floorPlanImage: "/images/projects/kashi-lake-city/local-street-plot-edge.jpg",
+        order: 1,
+      },
+      {
+        projectId: projectKashiLake.id,
+        title: "The Signature Family Plot",
+        type: "PLOT",
+        dimensions: "30 ft x 50 ft (1,500 sq.ft.) — 239 Plots in Mix",
+        plotSizeSqFt: 1500,
+        priceEstimate: "₹45 Lakhs* onwards",
+        floorPlanImage: "/images/projects/kashi-lake-city/traffic-calmed-avenue.jpg",
+        order: 2,
+      },
+      {
+        projectId: projectKashiLake.id,
+        title: "The Royale Parkside Plot",
+        type: "PLOT",
+        dimensions: "30 ft x 60 ft (1,800 sq.ft.) — 22 Plots in Mix",
+        plotSizeSqFt: 1800,
+        priceEstimate: "₹54 Lakhs* onwards",
+        floorPlanImage: "/images/projects/kashi-lake-city/corner-plot-parklet.jpg",
+        order: 3,
+      },
+      {
+        projectId: projectKashiLake.id,
+        title: "The Imperial Estate Plot",
+        type: "PLOT",
+        dimensions: "40 ft x 60 ft (2,400 sq.ft.) — 64 Plots in Mix",
+        plotSizeSqFt: 2400,
+        priceEstimate: "₹72 Lakhs* onwards",
+        floorPlanImage: "/images/projects/kashi-lake-city/villa-street-boundary.jpg",
+        order: 4,
+      },
+    ],
+  });
+
+  // Project 0 Amenities
+  await prisma.projectAmenity.createMany({
+    data: [
+      { projectId: projectKashiLake.id, title: "The Grand Residents Clubhouse (3,000 m²)", category: "Leisure", description: "Resort infinity swimming pool, wellness gym, banquet event lawn, indoor games lounge, and poolside dining.", iconName: "Building2", order: 1 },
+      { projectId: projectKashiLake.id, title: "Freshwater Lake & Aquatic Promenade (3,500 m²)", category: "Wellness", description: "Inland natural lake featuring timber boardwalk, illuminated arched bridge, water lily ponds, and sunset viewing deck.", iconName: "Waves", order: 2 },
+      { projectId: projectKashiLake.id, title: "Sports & Active Recreation Arena (3,500 m²)", category: "Wellness", description: "Multi-sport basketball & tennis courts, mini football turf, fitness equipment, and dedicated children's play arena.", iconName: "Dumbbell", order: 3 },
+      { projectId: projectKashiLake.id, title: "Heritage Sandstone Civic Entrance Gate (1,500 m²)", category: "Security", description: "Monumental triple-arched gate inspired by Kashi architecture, 24/7 RFID boom barriers, and estate administration office.", iconName: "ShieldCheck", order: 4 },
+      { projectId: projectKashiLake.id, title: "Woodland Shaded Park & Yoga Lawn (2,200 m²)", category: "Wellness", description: "Canopied woodland retreat with open-air meditation lawn, yoga circle, and senior citizen reflexology walking trails.", iconName: "Trees", order: 5 },
+      { projectId: projectKashiLake.id, title: "24-Metre Grand Arrival Boulevard", category: "Infrastructure", description: "Arterial dual carriageway with landscaped flowering medians, solar-powered illumination, and dedicated cycle tracks.", iconName: "Compass", order: 6 },
+      { projectId: projectKashiLake.id, title: "100% Subterranean Utilities & Cabling", category: "Infrastructure", description: "Zero overhead wires with concealed underground electrical lines, fiber conduits, storm drainage, and sewage treatment.", iconName: "Zap", order: 7 },
+      { projectId: projectKashiLake.id, title: "Stepped Rain Gardens & Natural Cascades", category: "Eco-living", description: "Terraced natural stone waterfalls and bio-retention swales preventing waterlogging and recharging groundwater.", iconName: "Sparkles", order: 8 },
+    ],
+  });
+
+  // Project 0 Nearby Landmarks
+  await prisma.nearbyLandmark.createMany({
+    data: [
+      { projectId: projectKashiLake.id, name: "Varanasi Ring Road Junction (Phase-2)", category: "Transit", distanceKm: "1.5 Km", travelTimeMin: "4 Mins", order: 1 },
+      { projectId: projectKashiLake.id, name: "Lal Bahadur Shastri Int'l Airport (Babatpur)", category: "Airport", distanceKm: "14.5 Km", travelTimeMin: "18 Mins", order: 2 },
+      { projectId: projectKashiLake.id, name: "Varanasi Cantt Railway Station & Hub", category: "Transit", distanceKm: "11.0 Km", travelTimeMin: "20 Mins", order: 3 },
+      { projectId: projectKashiLake.id, name: "Kashi Vishwanath Corridor & Dashashwamedh", category: "Spiritual", distanceKm: "14.2 Km", travelTimeMin: "28 Mins", order: 4 },
+      { projectId: projectKashiLake.id, name: "Heritage Multi-Speciality Hospital", category: "Healthcare", distanceKm: "7.8 Km", travelTimeMin: "12 Mins", order: 5 },
+      { projectId: projectKashiLake.id, name: "DPS & St. Francis International School Corridor", category: "Education", distanceKm: "3.5 Km", travelTimeMin: "6 Mins", order: 6 },
+    ],
+  });
+
+  // Project 0 Media Gallery (24 High-Res Real Clean Renders)
+  await prisma.projectMedia.createMany({
+    data: [
+      { projectId: projectKashiLake.id, title: "Monumental Civic Entrance Gate", caption: "Triple-arched sandstone arrival gateway with 24x7 security", url: "/images/projects/kashi-lake-city/civic-entrance-gate.jpg", category: "Architecture", isFeatured: true, order: 1 },
+      { projectId: projectKashiLake.id, title: "The Grand Residents Clubhouse", caption: "3,000 m² clubhouse pavilion with swimming pool and event lawn", url: "/images/projects/kashi-lake-city/grand-clubhouse.jpg", category: "Architecture", isFeatured: true, order: 2 },
+      { projectId: projectKashiLake.id, title: "Natural Freshwater Lake & Pedestrian Bridge", caption: "3,500 m² inland lake crossed by scenic arched bridge", url: "/images/projects/kashi-lake-city/lake-pedestrian-bridge.jpg", category: "Landscape", isFeatured: true, order: 3 },
+      { projectId: projectKashiLake.id, title: "Waterfront Timber Boardwalk", caption: "Illuminated evening boardwalk along natural lotus wetlands", url: "/images/projects/kashi-lake-city/lake-timber-boardwalk.jpg", category: "Landscape", isFeatured: false, order: 4 },
+      { projectId: projectKashiLake.id, title: "Clubhouse Reflected on the Lake at Dusk", caption: "Stunning destination precinct blending water and architecture", url: "/images/projects/kashi-lake-city/clubhouse-lake-dusk.jpg", category: "Architecture", isFeatured: false, order: 5 },
+      { projectId: projectKashiLake.id, title: "Lakefront Promenade at Night", caption: "Warm bollard illumination and serene lake walk", url: "/images/projects/kashi-lake-city/lake-promenade-night.jpg", category: "Landscape", isFeatured: false, order: 6 },
+      { projectId: projectKashiLake.id, title: "Sports & Active Recreation Complex", caption: "Basketball, tennis courts, and football sports arena", url: "/images/projects/kashi-lake-city/sports-recreation-arena.jpg", category: "Landscape", isFeatured: false, order: 7 },
+      { projectId: projectKashiLake.id, title: "Yoga & Senior Fitness Pavilion", caption: "Dedicated open-air meditation circle in Phase 4", url: "/images/projects/kashi-lake-city/yoga-senior-fitness-park.jpg", category: "Landscape", isFeatured: false, order: 8 },
+      { projectId: projectKashiLake.id, title: "Phase 1 Usable Family Park", caption: "Lush botanical gardens with walking paths and pergolas", url: "/images/projects/kashi-lake-city/family-park-greenery.jpg", category: "Landscape", isFeatured: false, order: 9 },
+      { projectId: projectKashiLake.id, title: "Phase 4 Shaded Woodland Park", caption: "Canopy trees providing cool natural shade throughout", url: "/images/projects/kashi-lake-city/woodland-shaded-park.jpg", category: "Landscape", isFeatured: false, order: 10 },
+      { projectId: projectKashiLake.id, title: "Lake Green Arrival Pathway", caption: "Stone-paved walkway with natural waterfall cascade", url: "/images/projects/kashi-lake-city/lake-green-arrival.jpg", category: "Landscape", isFeatured: false, order: 11 },
+      { projectId: projectKashiLake.id, title: "Stepped Rain Garden Cascade", caption: "Natural stone water feature designed for eco-filtration", url: "/images/projects/kashi-lake-city/lake-rain-garden-cascade.jpg", category: "Landscape", isFeatured: false, order: 12 },
+      { projectId: projectKashiLake.id, title: "Universal Accessible Lake Ramp", caption: "Barrier-free access to all waterfront amenities", url: "/images/projects/kashi-lake-city/lake-accessible-promenade.jpg", category: "Landscape", isFeatured: false, order: 13 },
+      { projectId: projectKashiLake.id, title: "Nature Learning Gazebo & Bird Habitat", caption: "Serene flora and fauna sanctuary at the lake edge", url: "/images/projects/kashi-lake-city/lake-nature-gazebo.jpg", category: "Landscape", isFeatured: false, order: 14 },
+      { projectId: projectKashiLake.id, title: "Plotted Development Aerial Perspective", caption: "Well-demarcated freehold plot clusters and wide roads", url: "/images/projects/kashi-lake-city/plotted-development-aerial.jpg", category: "Architecture", isFeatured: false, order: 15 },
+      { projectId: projectKashiLake.id, title: "Villa Boundaries & Sidewalks", caption: "Coordinated stone boundary walls and pedestrian paths", url: "/images/projects/kashi-lake-city/villa-street-boundary.jpg", category: "Architecture", isFeatured: false, order: 16 },
+      { projectId: projectKashiLake.id, title: "Main Gate Drop-Off Plaza", caption: "Spacious multi-lane arrival zone with visitor parking", url: "/images/projects/kashi-lake-city/main-gate-dropoff.jpg", category: "Architecture", isFeatured: false, order: 17 },
+      { projectId: projectKashiLake.id, title: "Landscaped Traffic Roundabout", caption: "Decorative central planter island for smooth traffic flow", url: "/images/projects/kashi-lake-city/landscaped-roundabout.jpg", category: "Landscape", isFeatured: false, order: 18 },
+      { projectId: projectKashiLake.id, title: "Pedestrian & Cycling Green Spine", caption: "Dedicated bicycle tracks separated from motor vehicles", url: "/images/projects/kashi-lake-city/pedestrian-cycling-spine.jpg", category: "Landscape", isFeatured: false, order: 19 },
+      { projectId: projectKashiLake.id, title: "Traffic-Calmed Residential Street", caption: "Cobblestone pedestrian crosswalks and flowering verges", url: "/images/projects/kashi-lake-city/traffic-calmed-avenue.jpg", category: "Architecture", isFeatured: false, order: 20 },
+      { projectId: projectKashiLake.id, title: "Clubhouse Arrival Drop-Off at Dusk", caption: "Grand illuminated circular porch at the destination club", url: "/images/projects/kashi-lake-city/clubhouse-dropoff-dusk.jpg", category: "Architecture", isFeatured: false, order: 21 },
+    ],
+  });
+
   // Project 1: Virasat Ganga Enclave (Plotted Development)
   const projectGanga = await prisma.project.create({
     data: {

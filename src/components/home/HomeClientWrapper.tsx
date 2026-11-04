@@ -59,9 +59,9 @@ export default function HomeClientWrapper({
         {/* Architectural Hero Image with Multi-layer Gradient */}
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=90"
+            src="/images/projects/kashi-lake-city/civic-entrance-gate.jpg"
             alt="Virasat Luxury Developments Varanasi"
-            className="w-full h-full object-cover object-center scale-105 animate-pulse duration-[10000ms]"
+            className="w-full h-full object-cover object-center scale-105"
           />
           {/* Cinematic Vignette Overlays */}
           <div className="absolute inset-0 bg-gradient-to-t from-virasat-charcoal-dark via-virasat-green-dark/70 to-virasat-charcoal-dark/70" />

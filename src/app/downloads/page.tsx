@@ -12,6 +12,16 @@ export default function DownloadsPage() {
 
   const documents = [
     {
+      id: "doc-0",
+      title: "Virasat Kashi Lake City — Integrated Concept Masterplan",
+      type: "PDF Document",
+      size: "9.5 MB",
+      project: "Virasat Kashi Lake City (41.31-Acre Plotted Sanctuary)",
+      description:
+        "Complete 41.31-acre masterplan dossier featuring 434 freehold plot configurations, 3,500 m² natural lake promenade drawings, 3,000 m² clubhouse architecture, and 5-phase zoning.",
+      downloadFile: "/downloads/kashi-lake-city-brochure.pdf",
+    },
+    {
       id: "doc-1",
       title: "Virasat Ganga Enclave — Official Master Brochure",
       type: "PDF Document",
